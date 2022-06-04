@@ -14,9 +14,50 @@ class App extends React.Component {
 
   }
 
+  componentDidMount(){
+    $.ajax({
+      type:'GET',
+      url: "/repos",
+      dataType: 'json',
+      success: (data)=>{
+        console.log(typeof data+'data type')
+        this.setState({repos:data})
+      },
+      error: (err)=>(console.log('ajax get err'))
+
+    })
+
+  }
+
   search (term) {
     console.log(`${term} was searched`);
     // TODO
+    $.ajax({
+      type: "POST",
+      url: "/repos",
+      data: JSON.stringify({username:term}),
+      dataType:'json',
+      contentType: 'application/json',
+      success: (results)=>{
+        console.log('ajax post success   '+ results)
+        this.setState({repos:results})
+      },
+      error: (err)=>(console.log('ajax post err'))
+
+    });
+    // $.ajax({
+    //   url: '/repos',
+    //   type: 'POST',
+    //   data: {username: term},
+    //   contentType: 'application/json',
+    //   success: (data) => {
+    //     console.log('data from server', data);
+    //   }
+    // })
+
+
+
+
   }
 
   render () {
