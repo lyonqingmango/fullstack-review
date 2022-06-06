@@ -8,7 +8,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      repos: []
+      repos: [],
+      text:'',
     }
    this.seach =this.search.bind(this);
 
@@ -23,7 +24,7 @@ class App extends React.Component {
         console.log(typeof data+'data type')
         this.setState({repos:data})
       },
-      error: (err)=>(console.log('ajax get err'))
+      error: (err)=>{console.log('ajax get err');this.setState({text:'err occur; can not get repos'})}
 
     })
 
@@ -32,31 +33,21 @@ class App extends React.Component {
   search (term) {
     console.log(`${term} was searched`);
     // TODO
+    event.preventDefault();
+
     $.ajax({
       type: "POST",
       url: "/repos",
       data: JSON.stringify({username:term}),
-      dataType:'json',
+      // dataType:'json',
       contentType: 'application/json',
-      success: (results)=>{
-        console.log('ajax post success   '+ results)
-        this.setState({repos:results})
+      success: (data)=>{
+        console.log('results post success'+data)
+        this.setState({repos:data})
       },
-      error: (err)=>(console.log('ajax post err'))
+      error: (err)=>(console.log('err inside search'))
 
     });
-    // $.ajax({
-    //   url: '/repos',
-    //   type: 'POST',
-    //   data: {username: term},
-    //   contentType: 'application/json',
-    //   success: (data) => {
-    //     console.log('data from server', data);
-    //   }
-    // })
-
-
-
 
   }
 
@@ -65,6 +56,7 @@ class App extends React.Component {
       <h1>Github Fetcher</h1>
       <RepoList repos={this.state.repos}/>
       <Search onSearch={this.search.bind(this)}/>
+      <p>{this.state.text}</p>
     </div>)
   }
 }
