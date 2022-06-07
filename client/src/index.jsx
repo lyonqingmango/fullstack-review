@@ -30,7 +30,7 @@ class App extends React.Component {
         console.log(typeof data+'data type');
         this.setState({repos:data})
       },
-      error: (err)=>{console.log('ajax get err'); this.setState({text:'err occur; can not get repos'})}
+      error: (err)=>{console.log('ajax get err'); this.setState({text:err})}
 
     })
 
@@ -48,12 +48,17 @@ class App extends React.Component {
       // dataType:'json',
       contentType: 'application/json',
       success: (data)=>{
-        console.log('results post success'+data);
-        this.setState({text:data});
+        console.log('results post success...'+data);
+        if(data){
+          this.setState({text:data});
+        }else{
+
+          this.setState({text:'Warning :RepoName has already searched so can not update repos list'});
+        }
         this.displayRepos()
 
       },
-      error: (err)=>{console.log('err inside search');this.setState({text:'err inside post. it could be repoName that does not exit'})}
+      error: (err)=>{console.log('err inside search');this.setState({text:'Warning err inside post; RepoName may not exist'})}
 
     });
 
@@ -62,9 +67,9 @@ class App extends React.Component {
   render () {
     return (<div>
       <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos}/>
       <Search onSearch={this.search.bind(this)}/>
       <p>{this.state.text}</p>
+      <RepoList repos={this.state.repos}/>
     </div>)
   }
 }

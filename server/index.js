@@ -18,8 +18,7 @@ app.post('/repos', function (req, res) {
   console.log('req.body without'+req.body.username);
 
   getReposByUsername(req.body.username)
-  .then((repos)=> save(repos))
-  .then(()=> {console.log('data inside post');res.status(201).send('post success')})
+  .then((repos)=> save(repos, (err,code,results)=>res.status(code).json(results)))
   .catch((err)=>{console.log('err inside post');res.status(500).send(err)})
 });
 

@@ -17,7 +17,42 @@ let Repo = mongoose.model('Repo', repoSchema);
 
 
 
-let save = async (repos) => {
+// let save = async (repos) => {
+
+//   // await Repo.deleteMany();
+//   let reposData =repos.data
+//   let reposArr= [];
+
+//  let doesUserExit = await Repo.exists({username:reposData[0].owner.login})
+//   console.log('doesUserExit'+doesUserExit)
+//   if(!doesUserExit){
+//     for(var i=0;i<reposData.length;i++){
+//         reposArr.push({
+//           repoName:reposData[i].name,
+//           html_url:reposData[i].html_url,
+//           description: reposData[i].description,
+//           username:reposData[i].owner.login,
+//           stargazers_count:reposData[i].stargazers_count,
+//         })
+//       }
+//       console.log('reposArr'+reposArr.length);
+//       Repo.insertMany(reposArr)
+//         .then(function () {
+//             console.log('data inserted');
+
+//         })
+//         .catch(function (err) {
+//             response.status(500).send('no insert');
+//         });
+
+//   }else{
+//     console.log('data exist');
+//     // response.send('data exist');
+//   }
+
+
+// }
+let save = async (repos,callback)=>{
 
   // await Repo.deleteMany();
   let reposData =repos.data
@@ -37,19 +72,18 @@ let save = async (repos) => {
       }
       console.log('reposArr'+reposArr.length);
       Repo.insertMany(reposArr)
-        .then(function () {
-            console.log('data inserted');
-
+        .then(()=>{
+          console.log('data inserted');
+          callback(null,201,'data inserted');
         })
         .catch(function (err) {
-            response.status(500).send('no insert');
+            callback(null,500,'can not insert');
         });
 
   }else{
-    console.log('data exist');
-    // response.send('data exist');
+    console.log('data exist ok');
+    callback(null,304,'data exist');
   }
-
 
 }
 
