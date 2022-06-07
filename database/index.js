@@ -17,13 +17,14 @@ let Repo = mongoose.model('Repo', repoSchema);
 
 
 
-let save = async(repos) => {
+let save = async (repos) => {
 
   // await Repo.deleteMany();
   let reposData =repos.data
   let reposArr= [];
 
-  const doesUserExit = await Repo.exists({username:reposData[0].owner.login})
+ let doesUserExit = await Repo.exists({username:reposData[0].owner.login})
+  console.log('doesUserExit'+doesUserExit)
   if(!doesUserExit){
     for(var i=0;i<reposData.length;i++){
         reposArr.push({
@@ -38,20 +39,21 @@ let save = async(repos) => {
       Repo.insertMany(reposArr)
         .then(function () {
             console.log('data inserted');
+
         })
         .catch(function (err) {
-            response.status(500).send(err);
+            response.status(500).send('no insert');
         });
 
   }else{
-    console.log('data exist')
+    console.log('data exist');
+    // response.send('data exist');
   }
 
 
 }
 
-let selectRepos = ()=> Repo.find().sort({stargazers_count: 'desc'}).limit(100);
-
+let selectRepos = ()=> Repo.find().sort({stargazers_count: 'desc'}).limit(25);
 
 module.exports = {
   save,
