@@ -74,15 +74,15 @@ let save = async (repos,callback)=>{
       Repo.insertMany(reposArr)
         .then(()=>{
           console.log('data inserted');
-          callback(null,201,'data inserted');
+          callback(null,'data inserted');
         })
         .catch(function (err) {
-            callback(null,500,'can not insert');
+            callback('can not insert');
         });
 
   }else{
     console.log('data exist ok');
-    callback(null,304,'data exist');
+    callback(null,'data exist');
   }
 
 }

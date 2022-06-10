@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
+
 // import { withRouter } from "react-router-dom";
 class App extends React.Component {
   constructor(props) {
@@ -31,7 +32,6 @@ class App extends React.Component {
         this.setState({repos:data})
       },
       error: (err)=>{console.log('ajax get err'); this.setState({text:err})}
-
     })
 
   }
@@ -52,7 +52,6 @@ class App extends React.Component {
         if(data){
           this.setState({text:data});
         }else{
-
           this.setState({text:'Warning :RepoName has already searched so can not update repos list'});
         }
         this.displayRepos()
@@ -61,6 +60,7 @@ class App extends React.Component {
       error: (err)=>{console.log('err inside search');this.setState({text:'Warning err inside post; RepoName may not exist'})}
 
     });
+    // this.props.history.push('/repos')
 
   }
 
