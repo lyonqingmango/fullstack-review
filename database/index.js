@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/fetcher',{ useUnifiedTopology: true, useNewUrlParser: true }).then(() => console.log('Connected to MongoDB...')).catch((err) => console.error("Coudn't connect MongoDB....", err));;
+// mongoose.connect('mongodb://localhost/fetcher',{ useUnifiedTopology: true, useNewUrlParser: true }).then(() => console.log('Connected to MongoDB...')).catch((err) => console.error("Coudn't connect MongoDB....", err));;
+mongoose.connect('mongodb://localhost:27017/fetcher?authSource=admin', { useUnifiedTopology: true, useNewUrlParser: true })
+.then(() => console.log('Connected to MongoDB...'))
+.catch((err) => console.error("Coudn't connect MongoDB....", err));
 
 
 let repoSchema = new mongoose.Schema({
